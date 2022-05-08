@@ -1,0 +1,96 @@
+– find the report for the crime scene
+SELECT *
+FROM crime_scene_report
+WHERE date = 20180115 and city = "SQL City"
+
+–understand what data is in person
+SELECT *
+FROM person
+
+-- find Annabel
+SELECT *
+FROM person
+ORDER BY name asc
+
+-- find person 1
+SELECT *
+FROM person
+WHERE address_street_name = "Northwestern Dr"
+ORDER BY address_number desc
+
+– what is in drivers license?
+SELECT *
+FROM drivers_license
+
+SELECT *
+FROM facebook_event_checkin
+
+-- find event in common
+SELECT *
+FROM facebook_event_checkin
+WHERE date = 20180115 and person_id = 16371
+
+-- View the interviews
+SELECT *
+FROM interview
+WHERE person_id = 16371 
+–
+WHERE person_id = 14887
+
+-- find the member information of those who checked in on the 9th and are gold
+WITH n AS
+(SELECT id, person_id, name, membership_status 
+FROM get_fit_now_member
+WHERE membership_status = "gold")
+SELECT *
+FROM get_fit_now_check_in as g
+LEFT JOIN n
+ON n.id = g.membership_id
+WHERE check_in_date = 20180109 and membership_status = "gold"
+
+--find the killer's information
+SELECT p.ssn, p.name
+FROM person as p
+LEFT JOIN income as i
+ON p.ssn = i.ssn
+WHERE name = "Joe Germuska" or
+  name = "Jeremy Bowers" 
+  
+SELECT *
+FROM facebook_event_checkin
+WHERE person_id = 67318
+
+-- but wait theres more
+SELECT *
+FROM interview
+WHERE person_id = 67318
+
+-- Let's use identity data first
+SELECT *
+FROM drivers_license
+WHERE
+	height BETWEEN 63 AND 69 and 
+ 	hair_color = "red" and
+ 	gender = "female" and
+	car_make = "Tesla" and 
+	car_model = "Model S"
+
+
+– find id # 
+SELECT * 
+FROM person
+WHERE license_id = 202298
+	or license_id = 291182
+	or license_id = 918773
+
+
+– find the people who were at the event more than 3 times 
+WITH new AS 
+(SELECT COUNT(DISTINCT date) as times, person_id
+FROM facebook_event_checkin
+WHERE event_name = "SQL Symphony Concert"
+GROUP BY person_id)
+SELECT n.person_id, l.
+FROM new as n
+WHERE times>2
+
